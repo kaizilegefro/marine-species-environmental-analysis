@@ -1,0 +1,279 @@
+---
+title: "Fumba analysis"
+output: pdf_document
+date: "2026-03-23"
+editor_options: 
+  chunk_output_type: console
+---
+RESEARCH PAPER
+
+# Influence of Environmental Variables on Sessile and Motile Species Distribution in a Coastal Habitat at Fumba, Zanzibar
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(flextable, gt, reactable, tidyverse, here)
+fumba_data <- read_csv(here("data/fumba.csv"))
+
+auto_plot <- function(X, Y) {
+  ggplot(data = fumba_data,
+         mapping = aes(x = .data[[X]],
+                       y = .data[[Y]])) +
+    geom_point(color = "steelblue", size = 2) +
+    geom_smooth(method = "glm",
+                se = F)
+}
+```
+
+# Abstract
+
+Coastal ecosystems are dynamic environments where physical and chemical variables strongly influence biological communities. This study examined the influence of temperature, salinity, and dissolved oxygen on the distribution of sessile (% cover) and motile species within a mixed intertidal habitat at Fumba, Zanzibar. A total of 20 field observations were collected directly from the intertidal zone and map of the study area was produced using ArcMap. Statistical analysis and visualization were conducted in R using scatter plots and generalized linear model (GLM) trend lines to examine relationships between environmental variables and species abundance.
+
+Results indicated generally weak to moderate relationships among environmental and biological variables, highlighting the complexity of coastal ecosystems. Dissolved oxygen showed a positive relationship with motile species abundance, consistent with ecological expectations for oxygen dependent organisms. Sessile species displayed weak negative relationships with temperature and dissolved oxygen, suggesting tolerance across environmental gradients. Salinity demonstrated positive associations with both sessile and motile species, although high variability indicated the presence of additional controlling factors such as habitat structure and water movement. These findings demonstrate that species distribution within mixed intertidal habitats is influenced by multiple interacting environmental variables rather than a single dominant factor. The study provides valuable baseline ecological information and demonstrates the application of GIS and statistical tools for environmental analysis.
+
+# 1. Introduction
+
+Coastal ecosystems represent some of the most productive and biologically diverse environments on Earth. Intertidal habitats, in particular, are characterized by fluctuating environmental conditions, including changes in temperature, salinity, and dissolved oxygen. These environmental variables strongly influence the distribution, abundance, and survival of marine organisms (Mann & Lazier, 2013).
+
+Temperature is a critical factor influencing metabolic processes in marine organisms. Changes in temperature can alter oxygen solubility in water, physiological performance, and species interactions (Boyd, 2015). Typically, increasing temperature reduces dissolved oxygen levels due to decreased gas solubility, thereby affecting organism survival, particularly in shallow coastal environments (Wetzel, 2001).
+
+Salinity is another important environmental parameter that regulates osmotic balance and physiological functioning in marine organisms. Many sessile and motile species exhibit specific salinity tolerance ranges, making salinity a key factor influencing species composition and diversity (Levinton, 2017).
+
+Dissolved oxygen (DO) plays a fundamental role in supporting aerobic respiration in aquatic organisms. Low oxygen levels can lead to stress, reduced biodiversity, and changes in species distribution (Diaz & Rosenberg, 2008). Motile organisms, such as crustaceans and mollusks, are particularly sensitive to variations in oxygen availability.
+
+Mixed intertidal habitats, such as those found in Fumba, Zanzibar, support diverse communities of sessile organisms (e.g., algae, barnacles) and motile organisms (e.g., crabs, snails). Understanding the relationships between environmental variables and biological communities in such habitats is essential for ecosystem monitoring and conservation planning.
+
+Therefore, this study aimed to investigate the influence of temperature, salinity, and dissolved oxygen on the distribution of sessile (% cover) and motile species abundance in a mixed intertidal habitat at Fumba, Zanzibar.
+
+# 2. Materials and Methods
+
+**2.1 Study Area**
+
+The study was conducted in a mixed intertidal coastal habitat located at Fumba, Zanzibar. This area is characterized by alternating exposure to seawater during tidal cycles, resulting in variable environmental conditions that influence biological communities. The intertidal zone includes mixed substrates consisting of rocky surfaces, sand patches, and biological cover, supporting both sessile and motile organisms.
+
+A map of the study area was developed using ArcMap software.
+
+![**Figure 1:** *Location map of the study area.*](images/clipboard-2319019336.png)
+
+**2.2 Data Collection**
+
+Field data were collected directly from the intertidal habitat using standardized observation methods. A total of 20 sampling observations were recorded.
+
+The following variables were measured:
+
+-   Temperature (°C): Measured using a field thermometer
+
+-   Salinity: Measured using a refractometer
+
+-   Dissolved Oxygen (mg/L): Measured using a dissolved oxygen meter
+
+-   Sessile Species (% Cover): Estimated visually as percentage cover of sessile organisms
+
+-   Motile Species (Counts): Recorded as the number of mobile organisms observed within sampling units
+
+Sampling was conducted across different locations within the intertidal zone to capture environmental variability.
+
+**2.3 Data Analysis**
+
+Data analysis was performed using R statistical software. Scatterplots were generated using the ggplot2 package to visualize relationships between environmental variables and biological responses.
+
+Generalized linear model (GLM) trend lines were applied to each scatterplot to identify patterns and trends between variables.
+
+A custom plotting function was developed to automate visualization and maintain consistency across plots. These graphical analyses enabled interpretation of relationships between temperature, salinity, dissolved oxygen, and species distribution.
+
+# 3. Results and Discussion
+
+These are data collected from the field
+
+```{r echo=FALSE, message=FALSE}
+flextable::flextable(fumba_data)
+```
+**Table 1:** *Data of twenty observation from the field*
+
+**3.1 Temperature and Dissolved Oxygen**
+
+The relationship between temperature and dissolved oxygen exhibited a weak positive trend. This pattern contrasts with the typical expectation that dissolved oxygen decreases as temperature increases due to reduced gas solubility. However, the weak positive trend observed in this study suggests that additional environmental factors, such as water mixing, tidal flushing, and photosynthetic activity, may be influencing oxygen availability in the study area.
+
+The wide distribution of data points around the trend line indicates substantial variability in oxygen concentrations across temperature ranges. This variability suggests that temperature alone does not strongly regulate dissolved oxygen dynamics in the mixed intertidal habitat. Instead, oxygen levels are likely influenced by biological activity and hydrodynamic processes.
+
+```{r echo=FALSE, message=FALSE, fig.cap="**Figure 2:** *Relationship between water temperature (°C) and dissolved oxygen concentration (mg/L) across sampling locations in the mixed intertidal habitat at Fumba, Zanzibar.*", fig.width=6, fig.height=5}
+auto_plot("Temp", "DO")
+```
+
+**3.2 Sessile Species and Dissolved Oxygen**
+
+A weak negative relationship was observed between sessile species cover and dissolved oxygen concentrations. As sessile cover increased, dissolved oxygen levels showed a slight decreasing tendency. This relationship may be attributed to increased respiration and reduced water movement within dense sessile communities.
+
+Sessile organisms such as algae and barnacles can alter local oxygen dynamics, particularly during nighttime respiration periods. However, the wide dispersion of data points indicates that dissolved oxygen is not solely controlled by sessile abundance. Other factors, including tidal exchange and water depth, likely contribute to oxygen variability.
+
+```{r echo=FALSE, message=FALSE, fig.cap="**Figure 3:** *Relationship between Sassile species percentage cover (%) and dissolved oxygen concentration (mg/L) across sampling locations in the mixed intertidal habitat at Fumba, Zanzibar.*", fig.align='center', fig.width=6, fig.height=5}
+auto_plot("Sessile species", "DO")
+```
+
+**3.3 Temperature and Sessile Species**
+
+The relationship between temperature and sessile species cover displayed a weak negative trend. This indicates that higher temperatures may slightly reduce sessile abundance, although the relationship was not strong.
+
+The broad spread of sessile cover values across similar temperature ranges suggests that sessile organisms possess tolerance to temperature fluctuations within the observed range. Substrate availability, nutrient conditions, and exposure time during tidal cycles may be more influential than temperature alone.
+
+```{r echo=FALSE, message=FALSE, fig.cap="**Figure 4:** *Relationship between water temperature (°C) and sessile species percentage cover (%) across sampling sites.*", fig.width=6, fig.height=5}
+auto_plot("Temp", "Sessile species")
+```
+
+**3.4 Dissolved Oxygen and Motile Species**
+
+Dissolved oxygen showed a positive relationship with motile species abundance. As oxygen concentrations increased, the number of motile species also increased. This observation aligns with established ecological principles, as motile organisms depend on oxygen for respiration and metabolic processes.
+
+Some sampling points exhibited relatively high motile counts, suggesting localized habitat conditions favorable for species survival. These locations may provide enhanced shelter, food availability, or suitable substrate conditions.
+
+Despite the positive relationship, variability among data points indicates that oxygen is not the only controlling factor influencing motile species distribution.
+
+```{r echo=FALSE, message=FALSE, fig.cap="**Figure 5:** *Relationship between dissolved oxygen concentration (mg/L) and motile species abundance (counts) within the mixed intertidal habitat at Fumba, Zanzibar.*", fig.width=6, fig.height=5}
+auto_plot("DO", "Mobile species")
+```
+
+**3.5 Sessile Species and Motile Species**
+
+A negative relationship was observed between sessile species cover and motile species abundance. This suggests that dense sessile communities may limit the movement or habitat availability for motile organisms.
+
+High sessile coverage may reduce open space required for motile species movement and foraging. Additionally, competition for resources and habitat structure differences may influence species distribution patterns.
+
+Interestingly, moderate levels of sessile cover appeared to support higher motile abundance, indicating that moderate habitat complexity may enhance biodiversity, while excessive coverage may limit species mobility.
+
+```{r echo=FALSE, message=FALSE, fig.cap="**Figure 6:** *Relationship between sessile species percentage cover (%) and motile species abundance (counts).*", fig.width=6, fig.height=5}
+auto_plot("Sessile species", "Mobile species")
+```
+
+**3.6 Salinity and Motile Species**
+
+Salinity demonstrated a positive relationship with motile species abundance. Higher salinity levels were generally associated with increased numbers of motile species. This trend suggests that more stable marine salinity conditions may support greater biological diversity.
+
+However, variation in motile species counts at similar salinity levels indicates that other environmental variables also influence species presence. For example at salinity approximately 37, mobile species vary from zero (0) species up to 5 species
+
+There was other important observation like possible outliers. From the plot we have a very high value (12–13 species) at salinity approximately 36 and 38. These points may represent special ecological conditions, be outliers or indicate high biodiversity sites.
+
+```{r echo=FALSE, message=FALSE, fig.cap="**Figure 7:** *Relationship between salinity and motile species abundance across sampling sites in the intertidal zone.*", fig.width=6, fig.height=5}
+auto_plot("Salinity", "Mobile species")
+```
+
+**3.7 Salinity and Sessile Species**
+
+Salinity exhibited a positive relationship with sessile species cover. Increased salinity levels were associated with higher sessile abundance. This pattern suggests that sessile organisms in the study area are adapted to marine salinity conditions.
+
+The variability observed across salinity levels indicates that while salinity is an important environmental factor, it does not independently determine species distribution.
+
+```{r echo=FALSE, message=FALSE, fig.cap="**Figure 8:** *Relationship between salinity and sessile species percentage cover (%) in the mixed intertidal habitat.*", fig.width=6, fig.height=5}
+auto_plot("Salinity", "Sessile species")
+```
+
+# 4. Conclusion
+
+This study demonstrated that environmental variables influence species distribution within the mixed intertidal habitat at Fumba. Dissolved oxygen was positively associated with motile species abundance, supporting the importance of oxygen availability in sustaining mobile organisms. Sessile species exhibited weak relationships with temperature and dissolved oxygen, suggesting environmental tolerance across observed conditions.
+
+Salinity showed positive associations with both sessile and motile species, indicating its role in maintaining favorable marine conditions. However, the overall weak to moderate relationships observed across variables emphasize the complexity of coastal ecosystems, where multiple environmental and biological factors interact simultaneously.
+
+# 5. Recommendations
+
+Future studies should increase the number of sampling observations to improve statistical reliability and strengthen ecological interpretation. Additional environmental variables such as nutrient concentrations, substrate composition, and water current patterns should be included to better understand ecosystem dynamics.
+
+Environmental monitoring programs should maintain regular measurements of dissolved oxygen and salinity to detect changes in habitat conditions. Spatial analysis using GIS tools should be expanded to integrate environmental and biological datasets for improved ecosystem management.
+
+# 6. Limitations of the Study
+
+Despite providing valuable insights into the relationships between environmental variables and species distribution in a mixed intertidal habitat at Fumba, Zanzibar, the following several limitations were acknowledged when interpreting the results.
+
+One of the primary limitations of this study is the relatively small sample size, consisting of only 20 field observations. While this number was sufficient to explore general trends and relationships, a larger dataset would improve statistical reliability and increase confidence in the observed patterns. Small sample sizes may limit the ability to detect strong relationships and may increase the influence of individual observations on the overall trends.
+
+Another limitation involves the restricted number of environmental variables measured. This study focused on temperature, salinity, and dissolved oxygen; however, other environmental factors such as nutrient availability, substrate composition, tidal exposure duration, wave action, and water current velocity are known to influence species distribution in intertidal habitats. The absence of these variables means that some important ecological drivers may not have been fully captured in the analysis.
+
+The temporal limitation of data collection also represents an important constraint. Measurements were collected during a limited period rather than across multiple seasons or tidal cycles. Environmental conditions in intertidal zones vary significantly over time due to seasonal changes, tidal fluctuations, and weather conditions. As a result, the findings presented in this study reflect conditions during the sampling period and may not fully represent long-term ecosystem dynamics.
+
+Additionally, the visual estimation method used for sessile species percentage cover may introduce observer related variability. Although visual estimation is commonly used in ecological field studies, differences in estimation techniques or observer judgment can influence measurement accuracy. Similarly, motile species counts may vary depending on organism movement and detectability during sampling.
+
+Finally, the use of simple scatterplot analysis and generalized linear trend lines provides useful exploratory insights but does not fully account for complex multivariate interactions among environmental variables. More advanced statistical methods, such as multiple regression analysis, principal component analysis (PCA), or generalized additive models (GAMs), could provide deeper understanding of the combined effects of multiple environmental factors.
+
+Despite these limitations, the study provides meaningful baseline information on environmental influences in a mixed intertidal habitat and demonstrates the practical integration of field sampling, statistical analysis in R, and spatial mapping using ArcMap.
+
+# 7. Acknowledgment
+
+I sincerely acknowledge the support received during field data collection and analysis. Appreciation is extended to individuals and institutions that provided technical guidance and resources necessary to complete this study successfully.
+
+# 8. References
+
+[1]Boyd, C. E. (2015). Water Quality: An Introduction. Springer.
+
+[2]Chapman, M. G. (2000). Poor design of behavioural experiments gets poor results. Journal of Experimental Marine Biology and Ecology.
+
+[3]Diaz, R. J., & Rosenberg, R. (2008). Spreading dead zones and consequences for marine ecosystems. Science.
+
+[4]Levinton, J. S. (2017). Marine Biology: Function, Biodiversity, Ecology. Oxford University Press.
+
+[5]Mann, K. H., & Lazier, J. R. N. (2013). Dynamics of Marine Ecosystems. Wiley-Blackwell.
+
+[6]Odum, E. P. (1971). Fundamentals of Ecology. Saunders.
+
+[7]R Core Team. (2024). R: A Language and Environment for Statistical Computing. R Foundation.
+
+[8]Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis. Springer.
+
+[9]Wetzel, R. G. (2001). Limnology: Lake and River Ecosystems. Academic Press.
+
+[10]Underwood, A. J. (1997). Experiments in Ecology. Cambridge University Press.
+
+[11]Connell, J. H. (1978). Diversity in tropical rain forests and coral reefs. Science.
+
+[12]Hiscock, K. (1996). Marine Nature Conservation Review. Joint Nature Conservation Committee.
+
+[13]Brower, J. E., Zar, J. H., & von Ende, C. N. (1998). Field and Laboratory Methods for General Ecology. McGraw-Hill.
+
+[14]Krebs, C. J. (2009). Ecology: The Experimental Analysis of Distribution and Abundance. Pearson.
+
+# APPENDIX — R SCRIPTS
+
+Appendix A — Data Preparation Script
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+ # Load packages
+    pacman::p_load(flextable, gt, reactable, tidyverse, here)
+
+ # Load dataset
+fumba_data <- read_csv(here("data/fumba.csv"))
+```
+
+Appendix B — Plot Automating Function
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Creating plot visualization automating function
+auto_plot <- function(X, Y) {
+  ggplot(data = fumba_data,
+         mapping = aes(x = .data[[X]],
+                       y = .data[[Y]])) +
+    geom_point(color = "steelblue", size = 2) +
+    geom_smooth(method = "glm",
+                se = F)
+  }
+```
+
+Appendix C — Scatter Plots Scripts
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, fig.show='hide'}
+ # Plot of temperature against DO
+auto_plot("Temp", "DO")
+
+# Plot os sessile species against DO
+auto_plot("Sessile species", "DO")
+
+# Plot of temperature against sessile species
+auto_plot("Temp", "Sessile species")
+
+# Plot of DO against mobile species
+auto_plot("DO", "Mobile species")
+
+# Plot of sessile species against mobile species
+auto_plot("Sessile species", "Mobile species")
+
+# Plot of salinity against mobile species
+auto_plot("Salinity", "Mobile species")
+
+# Plot of salinity against sessile species
+auto_plot("Salinity", "Sessile species")
+```
