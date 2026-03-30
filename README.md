@@ -4,8 +4,6 @@
 
 Influence of Environmental Variables on Sessile and Motile Species Distribution in a Coastal Habitat
 
----
-
 ## Overview
 
 This project investigates how environmental variables influence the distribution of sessile and motile marine species in a mixed intertidal coastal habitat. The study focuses on understanding how key environmental factors shape ecological patterns within coastal ecosystems.
@@ -20,16 +18,12 @@ Environmental variables analyzed include:
 
 The project integrates statistical analysis, data visualization, and spatial mapping to generate ecological insights.
 
----
-
 ## Objectives
 
 * Analyze relationships between environmental variables and marine species distribution
 * Identify ecological patterns affecting sessile and motile organisms
 * Visualize environmental influences using statistical plots
 * Develop GIS-based spatial representations of habitat characteristics
-
----
 
 ## Tools and Technologies
 
@@ -39,17 +33,15 @@ The project integrates statistical analysis, data visualization, and spatial map
 * **Spatial Data Analysis**
 * **R Markdown**
 
----
-
 ## Project Structure
 
-data/ → Environmental dataset
-scripts/ → R Markdown analysis
-figures/ → Generated graphs
-maps/ → GIS spatial maps
-report/ → Final project report
+- data/ → Environmental dataset
+- scripts/ → R Markdown analysis
+- figures/ → Generated graphs
+- maps/ → GIS studyl area
+- report/ → Final project report
 
----
+
 
 ## Figures
 
@@ -70,8 +62,6 @@ Below are selected figures generated during the analysis:
 ![Temperature vs Sessile Species](figures/temperature_vs_sessole_species.png)
 
 
----
-
 ## Key Outputs
 
 * Statistical relationships between environmental variables and species distribution
@@ -79,11 +69,7 @@ Below are selected figures generated during the analysis:
 * Spatial habitat mapping
 * Scientific report documenting results
 
----
-
 ## Author
 
 Marine Data Analyst
 R Programming | GIS (ArcGIS) | Marine Science | Environmental Data Analysis
-
-
